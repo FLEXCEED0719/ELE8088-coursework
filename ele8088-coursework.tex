@@ -1,0 +1,426 @@
+\documentclass[a4paper,11pt,reqno]{amsart}
+
+% --------------------------------------------------------
+% Packages
+% --------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[foot]{amsaddr}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathrsfs,bm}
+\usepackage[margin=0.95in]{geometry}
+\usepackage{color}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{mathtools,graphicx}
+\usepackage{tcolorbox}
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{units}
+\usepackage{hyperref}
+
+% --------------------------------------------------------
+% Custom Colours
+% --------------------------------------------------------
+\definecolor{CommentGreen}{rgb}{0.0,0.4,0.0}
+\definecolor{Background}{rgb}{0.9,1.0,0.85}
+\definecolor{lrow}{rgb}{0.914,0.918,0.922}
+\definecolor{drow}{rgb}{0.725,0.745,0.769}
+
+
+% --------------------------------------------------------
+% Typesetting Python code
+% --------------------------------------------------------
+\lstloadlanguages{Python}%
+\lstset{
+    language=Python, upquote=true, frame=single,
+    basicstyle=\small\ttfamily,
+    backgroundcolor=\color{yellow!30},
+    keywordstyle=[1]\color{NavyBlue}\bfseries,
+    keywordstyle=[2]\color{RubineRed},
+    keywordstyle=[3]\color{orange!90}\bfseries,
+    keywordstyle=[4]\color{Green!90}\bfseries,
+    identifierstyle=,
+    commentstyle=\usefont{T1}{pcr}{m}{sl}\color{MidnightBlue}\small,
+    stringstyle=\color{purple},
+    showstringspaces=false, tabsize=4, morekeywords={import,as},
+    morekeywords=[2]{args,__init__},
+    morekeywords=[3]{@property},
+    morekeywords=[4]{self},
+    morecomment=[l][\color{blue}]{...},
+    numbers=none, firstnumber=1,
+    numberstyle=\tiny\color{blue},
+    stepnumber=1, xleftmargin=10pt, xrightmargin=10pt
+}
+
+\synctex=1
+
+\hypersetup{
+    unicode=false, pdftoolbar=true, 
+    pdfmenubar=true, pdffitwindow=false, pdfstartview={FitH}, 
+    pdftitle={ELE8088 Coursework}, pdfauthor={A. Author},
+    pdfsubject={ELE8088 coursework}, pdfcreator={A. Author},
+    pdfproducer={ELE8088}, pdfnewwindow=true,
+    colorlinks=true, linkcolor=red,
+    citecolor=blue, filecolor=magenta, urlcolor=cyan
+}
+
+% --------------------------------------------------------
+% CUSTOM COMMANDS
+% --------------------------------------------------------
+\newcommand{\iu}{{\mathrm{i}\mkern1mu}}
+\newcommand{\R}{{\rm I\!R}}
+\newcommand{\N}{{\rm I\!N}}
+\newcommand{\E}{{\rm I\!E}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\tran}{\intercal}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\minimise}{minimise}
+\newcommand{\smallmat}[1]{\left[ \begin{smallmatrix}#1 \end{smallmatrix} \right]}
+\newcommand{\smallplus}{{\scriptscriptstyle +}}
+\newcommand{\Spp}{\mathbb{S}_{\smallplus\smallplus}}
+\newcommand{\Sp}{\mathbb{S}_{\smallplus}}
+\newcommand{\prob}{\mathrm{P}}
+
+% --------------------------------------------------------
+% Opening: Title and Author Names
+%          Modify this section
+% --------------------------------------------------------
+\title[ELE8088 Coursework]{Control \& Estimation Theory --- LaTeX template}
+
+\author[F. Author]{First Author}
+\author[A. Someone]{Andreas Someone}
+\address[F. Author and A. Someone]{Email addresses: \href{mailto:f.author@qub.ac.uk}%
+{f.author@qub.ac.uk} and 
+\href{mailto:a.someone.ac.uk}{a.someone@qub.ac.uk}.}
+\thanks{Some note goes here.  Version 0.0.1. Last updated:~\today.}
+
+
+
+% --------------------------------------------------------
+% Beginning of your document
+% --------------------------------------------------------
+\begin{document}
+
+\maketitle
+
+
+
+% --------------------------------------------------------
+% Section 1: Control
+% --------------------------------------------------------
+\section{Part I: Control}
+
+
+% Subsection: Optimal Control
+% ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+\subsection{Optimal Control}\label{sec:q1}
+You may format inline equations using the dollar sign
+like this $x = 1 = \alpha$ and $y = x^2 - \sqrt{z}$.
+Equations are like this:
+\begin{align}
+    \label{eq:lti_state_update}
+    x_{t+1} = A x_t + Bu_t,
+\end{align}
+where $x_t\in\R^n$ and $u_t\in\R^m$.
+
+You may typeset optimal control problems as follows:
+\begin{subequations}
+    \begin{align}
+        \mathbb{P}_N(x): \minimise_{\bm{u}_N,\bm{x}_N} \,
+         & V_N(\bm{u}_{N}, \bm{x}_N)
+        \\
+        \text{subject to: }\,
+         & x_{t+1} = A_t x_t + B_t u_t, \forall t\in\N_{[0, N-1]},
+        \\
+         & x_{t} \in X, \forall t \in \N_{[0, N]},
+        \\
+         & u_{t} \in U, \forall t \in \N_{[0, N-1]},
+        \\
+         & x_{0} = x.
+    \end{align}
+\end{subequations}
+Here we used the \texttt{align} and \texttt{subequations} environments.
+
+
+% Subsection: System Linearisation
+% ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+\subsection{System Linearisation}
+\begin{enumerate}
+    \item 
+        We have
+            \begin{equation}
+            \label{1}
+                f(x) = \int_0^1 Jf(\tau x)\dd\tau x.
+            \end{equation}
+        According to equation 
+            \begin{equation}
+                \label{2}
+                \|f(x)-Ax\| \leq \frac{\beta^2}{2} \|x\|^2.
+            \end{equation}
+        By substitute Equation \eqref{1} into \eqref{2}, the left hand side of equation become
+            \begin{equation}
+                \|f(x)-Ax\|= \|\int_0^1 Jf(\tau x)\dd\tau x-Ax\|.
+            \end{equation}
+        Which is equal to
+            \begin{equation}
+                \|f(x)-Ax\|= \|(\int_0^1 Jf(\tau x)\dd\tau-A)x\|.
+            \end{equation}
+        Since $\int_0^1 Jf(\tau x)\dd\tau-A$ is a $n*n$ matrix and x is a vector, property of induced norm could be applied as
+            \begin{equation}
+                \|(\int_0^1 Jf(\tau x)\dd\tau-A)x\| \leq \|\int_0^1 Jf(\tau x)\dd\tau-A\| \|x\|.
+            \end{equation}
+        As given in the question, $A=Jf(o)$ and $ f(o) = 0$, we have
+            \begin{equation}
+                \|\int_0^1 Jf(\tau x)\dd\tau-A\| \|x\| \leq \|\int_0^1 Jf(\tau x)\dd\tau-0\| \|x\| \leq \int_0^1 \|Jf(\tau x)\|\dd\tau \|x\|.
+            \end{equation}
+            \begin{equation}
+                \|f(x) - Ax\| \leq \int_0^1 \|Jf(\tau x)\|\dd\tau \|x\|.
+            \end{equation}
+    \item Define $x \in \R_+$ $V:X \rightarrow [0,\infty)$ 
+            \begin{equation}
+                \label{3}
+                f(x) = Ax + h(x).
+            \end{equation}
+            \begin{equation}
+                h(x) = f(x) - Ax.
+            \end{equation}
+        And from last question
+            \begin{equation}
+                h(x) \leq \frac{\beta}{2} \|x\|, \forall x \in \beta_\eta.
+            \end{equation}
+            \begin{equation}
+                \label{4}
+                V(x) = \frac{1}{2} x^T P x.
+            \end{equation}
+        Where $P>0$ and solves
+            \begin{equation}
+                \label{5}
+                A^T P A - P = -Q. (Q>0)
+            \end{equation}
+        And
+            \begin{equation}
+                P \in \Sp^n.
+            \end{equation}
+        By substitute \eqref{3} and \eqref{4} into LHS of LDC equation, we have
+            \begin{equation}
+                V(f(x)) - V(x) = \frac{1}{2}f(x)^TPf(x) - \frac{1}{2}x^TPx.
+            \end{equation}
+        Which is equal to
+            \begin{equation}
+                V(f(x)) - V(x) = \frac{1}{2}(Ax + h(x))^TP(Ax + h(x)) - \frac{1}{2}x^TPx.
+            \end{equation}
+        Replacing $h(x)$ 
+            \begin{equation}
+                V(f(x)) - V(x) = \frac{1}{2}(Ax + f(x)-Ax)^TP(Ax + f(x)-Ax) - \frac{1}{2}x^TPx.
+            \end{equation}
+        And it's equal to 
+            \begin{equation}
+                V(f(x)) - V(x) = \frac{1}{2}(Ax + \|\int_0^1 Jf(\tau x)\dd\tau-A\|-Ax)^TP(Ax + \|\int_0^1 Jf(\tau x)\dd\tau-A\|-Ax) - \frac{1}{2}x^TPx.
+            \end{equation}
+        Equals to
+            \begin{equation}
+                V(f(x)) - V(x) = \frac{1}{2}(\|\int_0^1 Jf(\tau x)\dd\tau-A\|)^TP(\|\int_0^1 Jf(\tau x)\dd\tau-A\|) - \frac{1}{2}x^TPx.
+            \end{equation}
+        We have
+            \begin{equation}
+                V(f(x)) - V(x) \leq \frac{1}{2}(\int_0^1 \|Jf(\tau)\|\dd\tau \|x\|)^TP(\int_0^1 \|Jf(\tau)\|\dd\tau\|x\|) - \frac{1}{2}x^TPx
+            \end{equation}
+        For all t $\in \N$ 
+            \begin{equation}
+                \|x_t\| \overset{GLB}\leq \underline{\alpha}^ {-1} (V(x_t)) \overset{LDC}\leq \underline{\alpha}^{-1} (V(x_0)).
+            \end{equation}
+        Take $x_0 \in \mathcal{B}_\eta$, so
+            \begin{equation}
+                \overset{LUB}\leq \underline{\alpha}^ {-1} (\overline{\alpha}(\|x_0\|)).
+            \end{equation}
+        For $\varepsilon > 0$ we need $\|x\| < \varepsilon$ we require
+            \begin{equation}
+                \underline{\alpha}^ {-1} (\overline{\alpha}(\|x_0\|)) < \varepsilon.
+            \end{equation}
+            \begin{equation}
+                \Leftrightarrow \overline{\alpha}(\|x_0\|) < \underline{\alpha}(\varepsilon)
+            \end{equation}
+            \begin{equation}
+                \Leftrightarrow (\|x_0\|) < \overline{\alpha}^ {-1}(\alpha(\varepsilon))
+            \end{equation}
+                $V:x \Rightarrow [0,\infty), \alpha \in K$ so $\alpha(0) = 0$, then
+            \begin{equation}
+                \underline{\alpha}(\|x\|) \leq V(x).
+            \end{equation}
+        Choose
+            \begin{equation}
+                \delta = min (\eta,\overline{\alpha}^ {-1}(\underline{\alpha}(\varepsilon)))
+            \end{equation}
+        Then , $\|x\| < \delta $ for all $ t \in N$. Both GLB and LUB hold.
+    \item For the case of $p(A) = 1$, system could be defined as unstable, the system can be, but not exactely.
+        Take identity as example
+        \begin{equation}
+            I =
+            \begin{bmatrix}
+                1 & 0
+                \\
+                0 & 1
+            \end{bmatrix}
+        \end{equation}
+        Its eigenvalue is 
+        \begin{equation}
+            I =
+            \begin{bmatrix}
+                1 - \lambda& 0
+                \\
+                0 & 1 - \lambda
+            \end{bmatrix}
+        \end{equation}
+        \begin{equation}
+            (1-\lambda)(1-\lambda) = 0
+        \end{equation}
+        So $p(I) = 1$, for any $x_{t+1} = I x_t$, the system either not converge to the origin, also not shows discrete trend.
+\end{enumerate}
+Links are \href{https://google.com}{like this}. We also have \textbf{boldface}, \textit{italics}, \emph{emphasised}, \texttt{truetype}, \textsc{Small Caps} and so on.
+
+
+% Subsection: MPC
+% ^^^^^^^^^^^^^^^
+\subsection{Model Predictive Control}
+Denote the real numbers as $\R$ and the complex numbers
+as $\C$. Example of a limit:
+\begin{equation}
+    z = \lim_{s\to0^+}\frac{s+1}{s^3+s^2-5s+9}.
+\end{equation}
+Another example
+\begin{equation}
+    \lim_{s\to\infty} \frac{s+1}{s^3+s^2-5s+9}.
+\end{equation}
+Example of an integral
+\begin{equation}
+    \int_0^\infty e^{-s\tau}f(\tau)\dd\tau.
+\end{equation}
+Three aligned equations
+\begin{align}
+    a = & 1,
+    \\
+    b = & 2,
+    \\
+    c = & 3.
+\end{align}
+Two aligned equations without equation numbers
+\begin{align*}
+    a = & 1,
+    \\
+    b = & 2.
+\end{align*}
+The transpose of a matrix is denoted as $A^{\tran}$; similarly, the transpose of a vector is $x^\tran$. It is not $x^T$.
+
+If you are looking for some special mathematical symbol, e.g., $\nabla$, $\partial$, $\Box$, etc, you can either look it up online or ask on Canvas.
+Mathematical derivations aligned at the ``='' sign:
+\begin{align}
+    \frac{1}{2+3\iu} {}={} & \frac{2-3\iu}{(2+3\iu)(2-3\iu)}
+    {}={} \frac{2-3\iu}{2^2 + 3^2}
+    \notag                                                   \\
+    {}={}                  & \frac{2-3\iu}{13}
+    {}={} \frac{2}{13} - \iu\frac{3}{13}.
+\end{align}
+More mathematical derivations (aligned at the $``\Leftrightarrow$'' sign):
+\begin{align*}
+                      & as + 4 + 2s = b + (8+a)s
+    \\
+    \Leftrightarrow{} & (a+2)s + 4 = b + (8+a)s
+    \\
+    \Leftrightarrow{} & (a+2)s - (8+a)s = b - 4.
+\end{align*}
+Typeset boldface math as follows: $\bm{x}$.\\
+
+\noindent \textbf{Rule of thumb:} If your notation does not look right, fix it: look it up or ask on Canvas.  Use the conventions we use in the handouts.
+
+\begin{tcolorbox}[title={Common typesetting mistakes}]
+    \textbf{Important Note:}
+    Write $\cos x$, not $cos x$.
+    Write $\sin x$, $\log x$, etc --- not $sin x$, $log x$ and so on.
+    Write $\lim_{s\to 0^+} sF(s)$, not $lim_{s\to 0^+} sF(s)$.
+    Write $xy$,  or $x\cdot y$,  but never $x*y$ --- that would be the \textit{convolution} of $x$ with $y$,  not their product,  so
+    \begin{equation}
+        2 * 3 = 3t^2.
+    \end{equation}
+    To denote a variable with a subscript, write $x_1$, not $x1$.
+    For superscripts, write $x^2$, not $x2$.
+    Denote a variable by $x$, not x.
+    Write $x_t$, not x$_t$.
+    Double quotes are ``like this'',  not "like this".
+    Reference equations using: Equation \eqref{eq:partial_derivatives};
+    not Equation \ref{eq:partial_derivatives} and not Equation (12).
+\end{tcolorbox}
+
+\begin{tcolorbox}[title={Additional typesetting mistakes}]
+    A few more things to keep in mind:
+    \begin{enumerate}
+        \item The set of real numbers is denoted as $\R$, not $R$
+        \item The set of symmetric positive (semi)definite matrices of dimensions $n$-by-$n$ is denoted as ($\Sp^n$) $\Spp^n$.
+        \item Alternatively we can write ($A \succcurlyeq 0$) $A \succ 0$.
+        \item The expectation of $X$ is $\E[X]$ (not $E[X]$, not $IE[X]$). Its variance is $\Var[X]$.
+        \item Cost functions are $\ell(x, u)$, not $l(x, u)$
+        \item The norm of $x$ is $\|x\|$, not $||x||$
+        \item The ball of radius $\eta>0$ is $\mathcal{B}_\eta$
+        \item Denote the conditional expectation of $X$ given $Y$ like this: $\E[X {}\mid{} Y]$
+        \item Probabilities are denoted as $\prob[X \in A]$.
+        \item The mass of an object can be $\unit[1]{kg}$, not $1kg$ and not $1$ kg.
+        \item The ``greater than or equal'' symbol is $\geq$, not $>=$
+        \item Minimisers are denoted with $x^\star$, not $x^*$
+        \item $\sum$ (sum) is not the same as $\Sigma$ (sigma uppercase)
+    \end{enumerate}
+\end{tcolorbox}
+
+\vspace{1em}
+\begin{tcolorbox}[title={Language and style}]
+    Please keep in mind:
+    \begin{enumerate}
+        \item Use formal language and avoid contractions (isn't,  doesn't, etc)
+        \item Use impersonal language. Do not write: ``As you can see here...'' Write: ``It can be seen that...''
+        \item Do not ever use the pronoun ``I.''
+        \item The symbols $=$, $\exists$, $\forall$ are mathematical symbols. You should not write ``the state of the system at time $0$ is $=x$.'' Instead write ``the state at time $t=0$ is $x$,'' or ``$x_0 = x$''. Likewise, do not write ``the probability that a person is $>\unit[60]{kg}$ is $\leq 0.8$.'' Instead, write ``the probability that a person's weight is higher than $\unit[60]{kg}$ does not exceed $0.8$.''
+        \item Use ``$\Rightarrow$'' and ``$\Leftrightarrow$'' in equations and mathematical expressions; use the words ``therefore, so, (thus, hence)'' in your discussion.
+        \item Punctuate your equations (as in this document).
+    \end{enumerate}
+\end{tcolorbox}
+
+
+% You can write comments like this
+\begin{figure}
+    \centering
+    \includegraphics[width=0.65\linewidth]{figures/lateral_position}
+    \caption{You may of course include figures in your document. Make sure your figures have legible axis labels. Figures of about this size are perfectly legible. Your captions should be informative. If necessary, there should be a legend, which does not obviate the need for a caption.}%
+    \label{fig:system_trajectory}
+\end{figure}
+
+To reference a figure write: ``As we see in Figure \ref{fig:system_trajectory},'' and not ``Figure 1.''
+
+\subsection{Vectors and matrices}
+Vectors are as follows
+\begin{equation}
+    x =
+    \begin{bmatrix}
+        x_1
+        \\
+        x_2
+        \\
+        x_3
+    \end{bmatrix}.
+\end{equation}
+Use the conventions we stated in Handout 1.
+Partial derivatives:
+\begin{equation}
+    \label{eq:partial_derivatives}
+    \frac{\partial f(x, y)}{\partial x} = x^2\cos(xy).
+\end{equation}
+Matrices:
+\begin{equation}
+    A =
+    \begin{bmatrix}
+        1 & 2 & 3
+        \\
+        4 & 5 & 6
+    \end{bmatrix}
+\end{equation}
+The inverse of a matrix is denoted as $A^{-1}$. In case you need to add a footnote\footnote{This is how you can do it.}.
+
+\end{document}
